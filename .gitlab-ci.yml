@@ -1,0 +1,32 @@
+stages:
+  - install
+  - build
+
+install:
+  stage: install
+  only:
+    - master
+  script:
+    - git config --global url."https://${CI_REGISTRY_USER}:${CI_JOB_TOKEN}@innersource.soprasteria.com/".insteadOf https://innersource.soprasteria.com/
+    - npm install
+    - git config --global --remove-section url."https://${CI_REGISTRY_USER}:${CI_JOB_TOKEN}@innersource.soprasteria.com/"
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+    policy: pull-push
+  tags:
+    - dxp-innovation
+
+build:
+  stage: build
+  only:
+    - master
+  script:
+    - mkdir -p /home/ubuntu/apps/server-template-nodejs
+    - cp -r * /home/ubuntu/apps/server-template-nodejs
+    - pm2 delete server-template-nodejs || true
+    - pm2 start /home/ubuntu/apps/server-template-nodejs/src/index.js --name "server-template-nodejs"
+    - rm -rf node_modules dist
+  tags:
+    - dxp-innovation
