@@ -24,9 +24,9 @@ router.use(express.static(path.join(__dirname, '..', '..', 'static')))
 
 // list your routes here
 //router.get('/api/locales/:localeId', (req, res, next) => { checkAuth(req, res, next, 'accessRight') }, ctrl.serverCache.readLocale)
-router.get('/api/date', (req, res, next) => { checkAuth(req, res, next, 'accessRight') }, ctrl.serverCache.time)
+//router.get('/api/date', (req, res, next) => { checkAuth(req, res, next, 'accessRight') }, ctrl.serverCache.time)
 router.post('/api/aop', (req, res, next) => { checkAuth(req, res, next, 'accessRight') }, ctrl.serverCache.getAop)
-
+//router.get('/api/aop', (req, res, next) => { checkAuth(req, res, next, 'accessRight') },  )
 
 // the URL is rewritten so the server always returns the index.html on all paths
 

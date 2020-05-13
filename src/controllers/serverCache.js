@@ -37,10 +37,12 @@ exports.time = (req, res) => {
 
 exports.getAop = (req, res) => {
   try {
+    if (!req.body) return res.status(400).send('no body provided') 
     const aopValues = WebWorker.FormatAop(req.body)
     res.status(200).send(aopValues)
   } catch(err) {
     res.status(500).send(err)
+    console.log(err)
   }
 }
 
