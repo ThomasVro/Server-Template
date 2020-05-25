@@ -23,13 +23,14 @@ router.use(bodyParser.json())
 router.use(express.static(path.join(__dirname, '..', '..', 'static')))
 
 // list your routes here
-//router.get('/api/locales/:localeId', (req, res, next) => { checkAuth(req, res, next, 'accessRight') }, ctrl.serverCache.readLocale)
-//router.get('/api/date', (req, res, next) => { checkAuth(req, res, next, 'accessRight') }, ctrl.serverCache.time)
-router.post('/api/aop', (req, res, next) => { checkAuth(req, res, next, 'accessRight') }, ctrl.serverCache.getAop)
-//router.get('/api/aop', (req, res, next) => { checkAuth(req, res, next, 'accessRight') },  )
+//router.get('/api/data', (req, res, next) => {checkAuth(req, res, next, 'accessRight')}, ctrl.AOP.getData)
+router.post('/api/aop', (req, res, next) => { 
+  checkAuth(req, res, next, 'accessRight') }, 
+  ctrl.AOP.aopCalculation,
+  ctrl.AOP.getData)
+
 
 // the URL is rewritten so the server always returns the index.html on all paths
-
 // this is needed if your server serves single page apps
 router.use('/*', (req, res) => { res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html')) })
 

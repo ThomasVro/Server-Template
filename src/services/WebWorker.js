@@ -1,4 +1,4 @@
- exports.FormatAop = ({ aops, entities, currentEntity, filters }) => {
+ exports.FormatAop = (aops, { entities, currentEntity, filters }) => {
 
         const dateToSeconds = date => {
             return Math.floor(((new Date(date)).getTime()) / 1000)
@@ -25,6 +25,7 @@
           }
         
           const numberOfRecords = Object.keys(aops).length
+          //const numberOfRecords = aops.length
           console.log('number of records: ' + numberOfRecords)
           const aopsFormatted = {}
           const discardedAops = []
@@ -48,8 +49,9 @@
           // let maxDate = filters.endDate
         
           // format the data according to our needs
-          for (let i = 0; i < numberOfRecords; i++) {
-            const aopData = aops[i]["body"].aop
+          console.log('number of records for the current entity: ' + numberOfRecords * entities[currentEntity].part)
+          for (let i = 0; i < numberOfRecords * entities[currentEntity].part; i++) {
+            const aopData = aops[i].body.aop
             const id = aopData.aopId
             delete aopData.aopId
         
@@ -176,6 +178,8 @@
             aopsFormatted
           })
         }
+
+
  
 
 
