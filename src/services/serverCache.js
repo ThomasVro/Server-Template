@@ -9,6 +9,7 @@ const winston = require('winston')
 
 let locales = []
 let aopData = []
+let max = null
 
 const reloadLocales = async () => {
   try {
@@ -26,7 +27,36 @@ const axios = require('axios')
 
 const  reloadData = async () => {
   try {
-    aopData = await axios.get('https://front.dxp.delivery/db/devdb/find_documents/kafka/kafka/cjo', { headers: {"Authorization": "Bearer SBS155*" }}).data
+    if(max === null) {
+      let dates = []
+      aopData = (await axios.get('https://front.dxp.delivery/db/devdb/find_documents/kafka/kafka/cjo', { headers: {"Authorization": "Bearer SBS155*" }})).data
+      for(var i = 0; i < aopData.length; i++) {
+        var date = (aopData[i].depHeader.creationTimestamp)
+        dates.push(new Date(date))
+      }
+      max = new Date(Math.max(...dates))
+      max = max.toISOString()
+      console.log(max)
+      console.log(aopData.length)
+  }else {
+      console.log('loading latest AOP')
+      let request = 'https://front.dxp.delivery/db/devdb/find_documents/kafka/kafka/cjo/?depHeader.creationTimestamp[$gt]=' + max 
+      
+      //console.log(request)
+      let newAop = (await axios.get(request, { headers: {"Authorization": "Bearer SBS155*" }})).data
+      console.log(newAop)
+      if(newAop.length === 0) {
+        aopData = aopData
+      }else {
+        for(var i = 0; i < newAop.length; i++) {
+          aopData.push(newAop[i])
+          console.log(newAop[i])
+        }
+      }
+      
+      //console.log(aopData)
+      
+  }
   } catch (error) {
     console.error(error)
   }

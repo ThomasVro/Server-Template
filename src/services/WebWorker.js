@@ -1,5 +1,6 @@
  exports.FormatAop = (aops, { entities, currentEntity, filters }) => {
 
+        //console.log(aops)
         const dateToSeconds = date => {
             return Math.floor(((new Date(date)).getTime()) / 1000)
           }
@@ -14,7 +15,7 @@
             let hash = 0
             let i = 0
             let chr = 0
-        
+
             if (string.length === 0) return hash
             for (i = 0; i < string.length; i++) {
               chr = string.charCodeAt(i)
@@ -24,8 +25,8 @@
             return hash
           }
         
-          const numberOfRecords = Object.keys(aops).length
-          //const numberOfRecords = aops.length
+          //const numberOfRecords = Object.keys(aops).length
+          const numberOfRecords = aops.length
           console.log('number of records: ' + numberOfRecords)
           const aopsFormatted = {}
           const discardedAops = []
@@ -53,6 +54,7 @@
           for (let i = 0; i < numberOfRecords * entities[currentEntity].part; i++) {
             const aopData = aops[i].body.aop
             const id = aopData.aopId
+            //console.log(id)
             delete aopData.aopId
         
             if (discardedAops.includes(id)) continue

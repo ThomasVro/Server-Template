@@ -25,9 +25,8 @@ router.use(express.static(path.join(__dirname, '..', '..', 'static')))
 // list your routes here
 //router.get('/api/data', (req, res, next) => {checkAuth(req, res, next, 'accessRight')}, ctrl.AOP.getData)
 router.post('/api/aop', (req, res, next) => { 
-  checkAuth(req, res, next, 'accessRight') }, 
-  ctrl.AOP.aopCalculation,
-  ctrl.AOP.getData)
+  checkAuth(req, res, next, 'accessRight') },  ctrl.AOP.aopCalculation)
+  //ctrl.AOP.getData)
 
 
 // the URL is rewritten so the server always returns the index.html on all paths

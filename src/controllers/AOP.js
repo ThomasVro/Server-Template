@@ -5,8 +5,12 @@ const serverCache = require('services/serverCache')
 exports.aopCalculation = (req, res) => {
   try {
     if (!req.body) return res.status(400).send('no body provided') 
+    serverCache.reloadData()
     let data = serverCache.getData()
+    //console.log(data)
+    console.log("received" + req.body)
     const aopValues = WebWorker.FormatAop(data, req.body)
+    //console.log(aopValues)
     res.status(200).send(aopValues)
   } catch(err) {
     res.status(500).send(err)
@@ -14,7 +18,7 @@ exports.aopCalculation = (req, res) => {
   }
 }
 
-
+/*
 const axios = require('axios')
 
 exports.getData = async (req, res) => {
@@ -25,4 +29,6 @@ exports.getData = async (req, res) => {
   }
 
 }
+*/
+
 
